@@ -1,4 +1,12 @@
 #include<stdio.h>
+#include<stdlib.h>
+int cmp1(const void *a, const void *b){
+	return *(int *)a - *(int *)b;
+}
+
+int cmp2(const void *a, const void *b){
+	return *(int *)b - *(int *)a;
+}
 
 int upper(int n){
 	int i, j, temp, a[4], x;
@@ -7,15 +15,7 @@ int upper(int n){
 		a[i] = n % 10;
 		n /= 10;
 	}
-	for(i = 0; i < 3; i++){
-		for(j = 0; j < 3 - i; j++){
-			if(a[j] > a[j + 1]){
-				temp = a[j];
-				a[j] = a[j + 1];
-				a[j + 1] = temp;
-			}
-		}
-	}
+	qsort(a, 4, sizeof(a[0]), cmp1);
 	x = a[0];
 	for(i = 0; i < 3; i++){
 		x = x * 10 + a[i + 1];
@@ -30,15 +30,7 @@ int lower(int n){
 		a[i] = n % 10;
 		n /= 10;
 	}
-	for(i = 0; i < 3; i++){
-		for(j = 0; j < 3 - i; j++){
-			if(a[j] < a[j + 1]){
-				temp = a[j];
-				a[j] = a[j + 1];
-				a[j + 1] = temp;
-			}
-		}
-	}
+	qsort(a, 4, sizeof(a[0]), cmp2);
 	x = a[0];
 	for(i = 0; i < 3; i++){
 		x = x * 10 + a[i + 1];
@@ -56,20 +48,30 @@ int main(void){
 	low = lower(n);
 	diff = low - up;
 	
-	if(up != low){
-		do{
-			printf("%04d - %04d = %d\n", low, up, diff);
+	if(diff == 0){
+		printf("%04d - %04d = %04d\n", low, up, diff);
+	}
+	else{
+		while(1){
+		if(diff == 0){
+			printf("%04d - %04d = %04d\n", low, up, diff);
+			break;
+		}
+		else if(diff == 6174){
+			printf("%04d - %04d = %04d\n", low, up, diff);
+			break;
+		}
+		else{
+			printf("%04d - %04d = %04d\n", low, up, diff);
 			up = upper(diff);
 			low = lower(diff);
 			diff = low - up;
-		}while(diff != 6174);
-		
-		printf("%04d - %04d = %d\n", low, up, diff);
+			if(diff == 6174){
+				printf("%04d - %04d = %04d\n", low, up, diff);
+				break;
+			}
+		}
 	}
-	else{
-		printf("%04d - %04d = %04d\n", low, up, diff);
 	}
-	
-	
 	return 0;
 }
