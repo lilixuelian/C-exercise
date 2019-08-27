@@ -2,27 +2,30 @@
 
 int main (void){
 	
-	float money;
-	int type, quality, a[1000], b[1000], i, j, sum;
+	float money, x, y;
+	int type, quality, a[1000], b[1000], i, j, sum, temp;
 	
 	scanf("%d %d", &type, &quality);
 	
 	for(i = 0; i < type; i++){
-		scanf("%d", a[i]);
+		scanf("%d", &a[i]);
 	}
 	for(i = 0; i < type; i++){
-		scanf("%d", b[i]);
+		scanf("%d", &b[i]);
 	}
 	
 	for(i = 0; i < type - 1; i++){
-		for(j = i; j < i - type - 1; j++){
-			if((double)b[j] / a[j] < (double)b[j + 1] / a[j + 1]){
-				int temp = b[j];
+		for(j = 0; j < i - type - 1; j++){
+			x = b[j] / a[j];
+			y = b[j + 1] / a[j + 1];
+			printf("j = %d, x = %d, y = %d\n", j, x, y);
+			if(a[j] < b[j]){
+				temp = b[j];
 				b[j] = b[j + 1];
 				b[j + 1] = temp;
-				temp = a[j];
-				a[j] = a[j + 1];
-				a[j + 1] = temp;
+//				temp = a[j];
+//				a[j] = a[j + 1];
+//				a[j + 1] = temp;
 			}
 		}
 	}
